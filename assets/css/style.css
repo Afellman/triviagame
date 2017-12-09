@@ -1,32 +1,50 @@
 body {
-  background-image: url('../images/background.jpg');
+  font-family: sans-serif;
+  background-image: url('../images/background.png');
   margin: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 .start-btn {
+  color: white;
   margin-top: 15px;
   padding: 10px 100px 10px 100px;
-  background: rgb(0, 132, 255);
+  background: #391017;
   font-size: 1.5em;
 }
 
 .main {
-
   text-align: center;
   width: 960px;
-  background: rgba(128, 128, 128, 0.39);
+  background: rgba(128, 128, 128, 0.50);
   margin: 0 auto;
-  height: 500px;
+  height: 600px;
   padding: 50px 25px 50px 25px;
   border-radius: 5px;
 }
 
 
 #title {
-
   padding: 20px 0 20px 0;
-  margin: 0px !important;
+  margin-bottom: 75px; 
   text-align: center;
-  background: rgb(172, 157, 76);
+  background-image: linear-gradient(90deg, #58C0A2,rgb(160, 224, 202)) ;
+  border-radius: 10px;
+}
+
+.answer-btn {
+  font-size: 1.3em;
+  color: rgb(230, 230, 230);
+  background-color: #702533;
+  border-radius: 5px;
+  /* width: 50px; */
+  flex: 1;
+  padding: 10px;
+}
+
+.answer-btn:hover {
+  background: blue;
+}
+
+#answers {
+  flex-direction: column;
+  display: flex;
 }
