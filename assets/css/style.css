@@ -1,5 +1,32 @@
+body {
+  background-image: url('../images/background.jpg');
+  margin: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .start-btn {
+  margin-top: 15px;
   padding: 10px 100px 10px 100px;
   background: rgb(0, 132, 255);
   font-size: 1.5em;
+}
+
+.main {
+
+  text-align: center;
+  width: 960px;
+  background: rgba(128, 128, 128, 0.39);
+  margin: 0 auto;
+  height: 500px;
+  padding: 50px 25px 50px 25px;
+  border-radius: 5px;
+}
+
+
+#title {
+
+  padding: 20px 0 20px 0;
+  margin: 0px !important;
+  text-align: center;
+  background: rgb(172, 157, 76);
 }
