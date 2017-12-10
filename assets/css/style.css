@@ -55,13 +55,13 @@ body {
   text-decoration: none;
 }
 
-#progressBar{
-    width: 1%;
-    height: 30px;
-    background-color: #4CAF50;
+
+@media only screen and (max-width: 500px) {
+.main {
+  width: 360px;
 }
 
-#myProgress {
-  width: 100%;
-  background-color: #ddd;
+#title {
+  margin-bottom: 10px;
+}
 }
