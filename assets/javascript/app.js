@@ -21,10 +21,10 @@ $(document).ready(function() {
       question : "Which discovery/invention did NOT happen at Bell Labs in New Jersey?",
       choices : [
         "Invention of the Transistor","Unix Operating Systems",
-      "The first observence of Cosmic Microwave Background (radiation left over from the Big Bang)",
-      "Discovery of the Double-Helix structure of DNA"
+      "The first observence of CMB (radiation left over from the Big Bang)",
+      "Discovery of the Double-Helix"
       ],
-      answer: "Discovery of the Double-Helix structure of DNA",
+      answer: "Discovery of the Double-Helix",
       wiki : "https://en.wikipedia.org/wiki/Bell_Labs",
       imgURL : ""
     },
@@ -49,20 +49,6 @@ $(document).ready(function() {
       wiki : "https://en.wikipedia.org/wiki/Leafcutter_ant#Ant-fungus_mutualism",
       imgURL : ""
     },
-    {
-      question : "",
-      choices : ["1","2","3","4"],
-      answer: "",
-      wiki : "",
-      imgURL : ""
-    },
-    {
-      question : "hi",
-      choices : ["1","2","3","4"],
-      answer: "",
-      wiki : "",
-      imgURL : ""
-    },
   ];
 
   
@@ -72,8 +58,6 @@ $(document).ready(function() {
     // count down timer, passing in the starting number as num.
     countDown: function(num) {
       timerInterval = setInterval(function() {
-        console.log('interval started');
-        console.log(num)
         num--;
         $('#timer').text(num);
         if (num <= 0){
@@ -124,31 +108,37 @@ $(document).ready(function() {
 
     // telling the user that they won and displaying the relavent article link.
     roundWin: function(){
+      $('#question').empty();
       $('#answers').html('<h1>You got it!');
-      $('#answers').append('<span>Check it out! <a href= "' + 
+      $('#answers').append('<h2><span>Check it out here: <a href= "' + 
         roundQuestion.wiki + 
-        '" target="_blank" >Article</a></span>'
+        '" target="_blank" id= "article">Article</a></span></h2>'
       );
-      //waiting 4 seconds than moving the 
+      //waits 4 seconds then increases the question iterator/wincount and restarts the game
       setTimeout(function(){
         questIter++;
         winCount++;
        trivia.roundStart();
-      }, 4000);
+      }, 5000);
      
     },
-
+    // telling the user that they got it wrong and displaying the relavent article link.
     roundLose: function(){
       $('#answers').html('<h1>Wrong!');
-      $('#answers').append('<p>The correct answer was ' + roundQuestion.answer + '</p>');
-      $('#answers').append('<span>Check it out! <a href= "' + roundQuestion.wiki + '" target="_blank" id= "article">Article</a></span>');
+      $('#answers').append('<h3>The correct answer was ' + 
+        roundQuestion.answer
+      );
+      $('#answers').append('<h3><span>Check it out here: <a href= "' + 
+        roundQuestion.wiki + '" target="_blank" id= "article">Article</a></span></h3>');
+        //waits 4 seconds then increases the question iterator/wincount and restarts the game
       setTimeout(function(){
         questIter++
         loseCount++
         trivia.roundStart();
-       }, 4000);
+       }, 5000);
     },
     
+    //last function, displays the results and asks if the user wants to play again.
     playAgain: function() {
       
       clearInterval(timerInterval);
@@ -172,10 +162,10 @@ $(document).ready(function() {
 
 
 
-// event listeners.
+// event listeners for start button and answer button
 
   $('.start-btn').on('click', function(){
-    countDownNum = 15;
+    countDownNum = 20;
     winCount = 0;
     loseCount = 0;
     $('#timer-div').show();
@@ -184,7 +174,6 @@ $(document).ready(function() {
     trivia.roundStart();
   });
 
-  //listens for answer button press
   $(document).on('click', '.answer-btn', function(){
     var guess = $(this).text();
     trivia.checkAnswer(guess, roundQuestion.answer);

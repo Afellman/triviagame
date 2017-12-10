@@ -50,6 +50,18 @@ body {
 }
 
 #article {
+  font-size: 1.3em;
   color: rgb(192, 183, 61);
   text-decoration: none;
+}
+
+#progressBar{
+    width: 1%;
+    height: 30px;
+    background-color: #4CAF50;
+}
+
+#myProgress {
+  width: 100%;
+  background-color: #ddd;
 }
