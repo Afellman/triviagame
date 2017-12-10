@@ -1,21 +1,20 @@
 $(document).ready(function() {
-  var key = 'PW7OxeB8iUm6Lt5NvbP3Am0i0y8vbTmP';
+
+  //setting global variables.
   var roundQuestion;
-  var randomNum;
   var timerInterval;
-  var wrongURL = "http://api.giphy.com/v1/gifs/search?q=fungus&apikey=" + key + "&limit=5";
-  var gif;
-  var iter;
+  var questIter;
   var winCount;
   var loseCount;
   var countDownNum;
-  //Theme: 
+  
+  //array of objects storing the questions and their info
   var questions = [
     {
       question : "What is the largest living organism on earth?",
       choices : ["Blue Whale","Jaba The Hut","Fungus in Eastern Oregon","Giant Squid"],
       answer: "Fungus in Eastern Oregon",
-      wiki : "https://en.wikipedia.org/wiki/Largest_organisms#Fungi",
+      wiki : "http://www.bbc.com/earth/story/20141114-the-biggest-organism-in-the-world",
       imgURL : ""
     },
     {
@@ -30,28 +29,28 @@ $(document).ready(function() {
       imgURL : ""
     },
     {
-      question : "Who designed Bitcoin?",
-      choices : ["Steve Jobs","Ellon Musk","Linux Torvalds","Unknown"],
-      answer: "Unknown",
+      question : "Who invited Bitcoin?",
+      choices : ["Steve Jobs","Ellon Musk","Linus Torvalds","Satoshi Nakamoto"],
+      answer: "Satoshi Nakamoto",
       wiki : "https://en.wikipedia.org/wiki/Satoshi_Nakamoto",
       imgURL : ""
     },
     {
-      question : "What animal is our closest genetic relative?",
-      choices : ["Bonobos","Chimpanzees","","Bonobos and Chimpanzees"],
-      answer: "Bonobos and Chimpanzees",
+      question : "What animal species is our closest genetic relative?",
+      choices : ["Bonobos","Chimpanzees","Eastern Lowland Gorilla","Bonobos and Chimpanzees equally"],
+      answer: "Bonobos and Chimpanzees equally",
       wiki : "http://www.sciencemag.org/news/2012/06/bonobos-join-chimps-closest-human-relatives",
       imgURL : ""
     },
     {
-      question : "ello",
-      choices : ["1","2","3","4"],
-      answer: "",
-      wiki : "",
+      question : "What animal/insect practices farming besides humans?",
+      choices : ["Earthworm","Kangaroos","Leafcutter Ants","Howler Monkeys"],
+      answer: "Leafcutter Ants",
+      wiki : "https://en.wikipedia.org/wiki/Leafcutter_ant#Ant-fungus_mutualism",
       imgURL : ""
     },
     {
-      question : "yo",
+      question : "",
       choices : ["1","2","3","4"],
       answer: "",
       wiki : "",
@@ -68,12 +67,13 @@ $(document).ready(function() {
 
   
 
-// object of game functions
+// object storing all the neccessary game functions.
   var trivia = {
-
-    countDown: function(num){
+    // count down timer, passing in the starting number as num.
+    countDown: function(num) {
       timerInterval = setInterval(function() {
         console.log('interval started');
+        console.log(num)
         num--;
         $('#timer').text(num);
         if (num <= 0){
@@ -83,37 +83,37 @@ $(document).ready(function() {
           $('#answers').empty();
           $('#question').html("<h1>Time's up!</h1>")
           setTimeout(function() {
-            
             trivia.playAgain();
           }, 3000);
-        };
-      }
-        , 1000); 
+        }
+      }, 1000)
     },
 
+    // start of each round.
     roundStart: function() {
-      console.log('round started')
+     // starting the timer.
       $('#timer').text(countDownNum);
       this.countDown(countDownNum);
-      if (iter >= questions.length) {
+      // checking if there are questions left.
+      if (questIter >= questions.length) {
         trivia.playAgain();
         return;
       };
-      
-      
-      roundQuestion = questions[iter];
+      // choosing and appending the question for this round
+      roundQuestion = questions[questIter];
       $('#answers').empty();
       $('#question').html(roundQuestion.question);
+      // building and appending answer choices.
       for (var i = 0; i < roundQuestion.choices.length; i++){
         $('#answers').append($("<button>")
           .addClass('answer-btn')
           .text(roundQuestion.choices[i]));
       };
     },
-
+    // getting the chosen answer from #answer-btn event listener and 
+    // deciding what the next function should be based on the results.
     checkAnswer: function(guess, answer) {
       clearInterval(timerInterval);
-      
       if (guess == answer){
         this.roundWin();
       }
@@ -122,28 +122,16 @@ $(document).ready(function() {
       };
     },
 
-    playAgain: function() {
-      
-        clearInterval(timerInterval);
-        
-        $('#timer-div').hide();
-        $('#question').html('<h1>Game Over</h1>');
-        $('#question').append('<button id="play-again">Play Again?</button>');
-        $('#answers').html('<h3>Correct answers = ' + winCount +' </h3>');
-        $('#answers').append('<h3>Incorrect answers = ' + loseCount + '</h3>');
-        $(document).on('click', '#play-again', function() {
-          
-          $('#question').empty();
-          $('#answers').empty();
-          $('.start-btn').show();
-        });
-      },
-
+    // telling the user that they won and displaying the relavent article link.
     roundWin: function(){
       $('#answers').html('<h1>You got it!');
-      $('#answers').append('<span>Check it out! <a href= "' + roundQuestion.wiki + '" target="_blank" >Article</a></span>');
+      $('#answers').append('<span>Check it out! <a href= "' + 
+        roundQuestion.wiki + 
+        '" target="_blank" >Article</a></span>'
+      );
+      //waiting 4 seconds than moving the 
       setTimeout(function(){
-        iter++;
+        questIter++;
         winCount++;
        trivia.roundStart();
       }, 4000);
@@ -153,13 +141,32 @@ $(document).ready(function() {
     roundLose: function(){
       $('#answers').html('<h1>Wrong!');
       $('#answers').append('<p>The correct answer was ' + roundQuestion.answer + '</p>');
-      $('#answers').append('<span>Check it out! <a href= "' + roundQuestion.wiki + '" target="_blank" >Article</a></span>');
+      $('#answers').append('<span>Check it out! <a href= "' + roundQuestion.wiki + '" target="_blank" id= "article">Article</a></span>');
       setTimeout(function(){
-        iter++
+        questIter++
         loseCount++
         trivia.roundStart();
        }, 4000);
     },
+    
+    playAgain: function() {
+      
+      clearInterval(timerInterval);
+      
+      $('#timer-div').hide();
+      $('#question').html('<h1>Game Over</h1>');
+      $('#question').append('<button id="play-again">Play Again?</button>');
+      $('#answers').html('<h3>Correct answers = ' + winCount +' </h3>');
+      $('#answers').append('<h3>Incorrect answers = ' + loseCount + '</h3>');
+      $(document).on('click', '#play-again', function() {
+        
+        $('#question').empty();
+        $('#answers').empty();
+        $('.start-btn').show();
+      });
+    },
+
+
   };
 
 
@@ -168,12 +175,12 @@ $(document).ready(function() {
 // event listeners.
 
   $('.start-btn').on('click', function(){
-    countDownNum = 5;
+    countDownNum = 15;
     winCount = 0;
     loseCount = 0;
     $('#timer-div').show();
     $('.start-btn').hide();
-    iter = 0;  
+    questIter = 0;  
     trivia.roundStart();
   });
 
@@ -183,4 +190,26 @@ $(document).ready(function() {
     trivia.checkAnswer(guess, roundQuestion.answer);
   });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
+

@@ -3,7 +3,7 @@ body {
   background-image: url('../images/background.png');
   margin: 0;
 }
-.start-btn {
+.start-btn, #play-again {
   color: white;
   margin-top: 15px;
   padding: 10px 100px 10px 100px;
@@ -47,4 +47,9 @@ body {
 #answers {
   flex-direction: column;
   display: flex;
+}
+
+#article {
+  color: rgb(192, 183, 61);
+  text-decoration: none;
 }
